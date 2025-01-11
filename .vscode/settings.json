@@ -1,0 +1,10 @@
+{
+    "files.associations": {
+        "thread": "cpp",
+        "cstdlib": "cpp",
+        "iostream": "cpp",
+        "string": "cpp",
+        "ostream": "cpp"
+    },
+    "cmake.sourceDirectory": "E:/repository/_code-source/_C_C++/_learn"
+}

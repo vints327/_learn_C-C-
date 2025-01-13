@@ -17,7 +17,7 @@
                 "-o",
                 "main.exe",
                 "main",
-                "${workspaceFolder}\\http-server\\main.cpp",
+                "${workspaceFolder}\\httplib-server\\main.cpp",
                 "-I", "D:/vcpkg/installed/x64-windows/include",  // 添加 vcpkg 的头文件路径
                 "-lws2_32",
                 "-L", "D:/vcpkg/installed/x64-windows/lib"      // 添加 vcpkg 的库文件路径

@@ -2,13 +2,12 @@
 {
     // 用于指定某些文件或头文件与特定语言的关联，确保这些文件在打开时使用正确的语言模式进行语法高亮、智能感知等。
     "files.associations": {
-        // 将thread文件关联为C++语言。
         "thread": "cpp",
-        // 将cstdlib文件关联为C++语言。
         "cstdlib": "cpp",
         "iostream": "cpp",
         "string": "cpp",
-        "ostream": "cpp"
+        "ostream": "cpp",
+        "stdexcept": "cpp"
     },
     // 指定CMake项目的源代码目录。
     "cmake.sourceDirectory": "E:/repository/_code-source/_C_C++/_learn",

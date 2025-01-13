@@ -95,3 +95,15 @@ Testing/Temporary/CTestCostData.txt
 
 .vs
 websocketpp
+# 忽略所有 .exe 文件
+*.exe
+
+# 其他常见忽略规则
+*.o
+*.obj
+*.a
+*.lib
+*.pdb
+*.dll
+*.so
+*.dylib

@@ -1,26 +1,42 @@
+// 定义了Visual Studio Code中的任务配置文件tasks.json，用于配置C/C++项目的构建任务
 {
     "version": "2.0.0",
     "tasks": [
+        // 任务1: Build C++
         {
+            // 任务的名称，显示在VS Code的任务选择器中。
             "label": "Build C++",
+            // 指定任务类型为shell命令。
             "type": "shell",
+            // 使用g++编译器进行编译。
             "command": "g++",
+            // 编译参数包括调试信息（-g）、源文件路径（main.cpp）、输出文件名（main.exe），以及vcpkg库的头文件和库文件路径。
             "args": [
                 "-g",
                 "main.cpp",
                 "-o",
-                "main.exe"
+                "main.exe",
+                "main",
+                "${workspaceFolder}\\http-server\\main.cpp",
+                "-I", "D:/vcpkg/installed/x64-windows/include",  // 添加 vcpkg 的头文件路径
+                "-lws2_32",
+                "-L", "D:/vcpkg/installed/x64-windows/lib"      // 添加 vcpkg 的库文件路径
             ],
+            // 将此任务归类为构建任务。
             "group": "build",
+            // 问题匹配器：使用GCC编译器的问题匹配器来捕获编译错误和警告。
             "problemMatcher": [
                 "$gcc"
             ],
+            // 详细信息：描述任务的来源。
             "detail": "Generated task by VS Code"
         },
         {
             "type": "cppbuild",
             "label": "C/C++: g++.exe 生成活动文件",
             "command": "D:\\msys64\\ucrt64\\bin\\g++.exe",
+            // 参数：编译参数包括启用彩色诊断信息（-fdiagnostics-color=always）、调试信息（-g）、当前文件路径（${file}）、
+            // 输出文件路径（${fileDirname}\\${fileBasenameNoExtension}.exe）。
             "args": [
                 "-fdiagnostics-color=always",
                 "-g",

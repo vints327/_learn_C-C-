@@ -1,22 +1,38 @@
+// 配置了一个Visual Studio Code的C/C++开发环境
 {
     "configurations": [
         {
+            // 配置名称：定义了名为“Win32”的配置。
             "name": "Win32",
+            // 包含路径：指定了多个路径用于查找头文件，包括工作区和第三方库路径。
             "includePath": [
                 "${workspaceFolder}/**",
-                "E:/repository/_code-source/_C_C++/_learn/websocketpp",
-                "D:/Program Files (x86)/vcpkg/installed/x64-windows/include",
-                "D:/Program Files (x86)/vcpkg/installed/x64-windows/lib"
+                "D:/vcpkg/installed/x64-windows/include",
+                "D:/vcpkg/installed/x64-windows/lib",
+                "E:/repository/_code-source/_C_C++/_learn/websocketpp"
             ],
+            // 宏定义：定义了编译时使用的宏，如_DEBUG、UNICODE等。
             "defines": [
                 "_DEBUG",
                 "UNICODE",
                 "_UNICODE"
             ],
+            // Windows SDK版本：指定了使用的Windows SDK版本。
             "windowsSdkVersion": "10.0.17763.0",
+            // 编译器路径：指定了编译器为cl.exe。
             "compilerPath": "cl.exe",//"cl.exe,g++.exe
+            // 标准版本：设置了C和C++的标准版本分别为C17和C++17。
             "cStandard": "c17",
             "cppStandard": "c++17",
+            // 浏览路径：指定了代码导航和智能感知的路径。
+            "browse": {
+                "path": [
+                    "D:/vcpkg/installed/x64-windows/include",  // 同样指定 browse 路径
+                    "${workspaceFolder}"
+                ],
+                "limitSymbolsToIncludedHeaders": true
+            },
+            // IntelliSense模式：指定了IntelliSense的工作模式。
             "intelliSenseMode": "windows-msvc-x64"
         }
     ],

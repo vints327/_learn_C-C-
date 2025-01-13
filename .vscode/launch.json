@@ -1,29 +1,72 @@
+// 定义了Visual Studio Code中的调试配置文件launch.json，用于配置C/C++项目的调试任务。
 {
     "version": "0.2.0",
+    // 包含三个调试配置，分别是“Debug main.cpp”、“(gdb) 启动”和“C/C++: g++.exe 生成和调试活动文件”。
     "configurations": [
         {
             "name": "Debug main.cpp",
+            // 类型：使用Windows Visual Studio Debugger进行调试。
             "type": "cppvsdbg",
+            // 请求类型：指定为启动请求。
             "request": "launch",
+            // 程序路径：指定要调试的可执行文件路径。
             "program": "${workspaceFolder}/main.exe",
             "args": [],
+            // 是否在程序入口点暂停（不暂停）。
             "stopAtEntry": false,
+            // 工作目录：设置工作目录为工作区根目录。
             "cwd": "${workspaceFolder}",
+            // 当前没有额外的环境变量设置。
             "environment": [],
+            // 使用VS Code内部控制台。
             "console": "internalConsole"
         },
         {
             "name": "(gdb) 启动",
+            // 使用GDB进行调试。
             "type": "cppdbg",
             "request": "launch",
+            // 需要手动输入要调试的可执行文件路径。
             "program": "输入程序名称，例如 ${workspaceFolder}/a.exe",
+            "args": [],
+            "stopAtEntry": false,
+            // 设置工作目录为当前文件所在的目录。
+            "cwd": "${fileDirname}",
+            "environment": [],
+            // 不使用外部控制台。
+            "externalConsole": false,
+            // 使用GDB作为调试器。
+            "MIMode": "gdb",
+            // 指定GDB的路径（需要根据实际情况修改）。
+            "miDebuggerPath": "/path/to/gdb",
+            // 调试器设置命令："setupCommands"
+            "setupCommands": [
+                // 启用整齐打印："-enable-pretty-printing"
+                {
+                    "description": "为 gdb 启用整齐打印",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                },
+                // 设置反汇编风格为Intel："-gdb-set disassembly-flavor intel"
+                {
+                    "description": "将反汇编风格设置为 Intel",
+                    "text": "-gdb-set disassembly-flavor intel",
+                    "ignoreFailures": true
+                }
+            ]
+        },
+        {
+            "name": "C/C++: g++.exe 生成和调试活动文件",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${fileDirname}\\${fileBasenameNoExtension}.exe",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${fileDirname}",
             "environment": [],
             "externalConsole": false,
             "MIMode": "gdb",
-            "miDebuggerPath": "/path/to/gdb",
+            "miDebuggerPath": "D:\\msys64\\ucrt64\\bin\\gdb.exe",
             "setupCommands": [
                 {
                     "description": "为 gdb 启用整齐打印",
@@ -35,7 +78,9 @@
                     "text": "-gdb-set disassembly-flavor intel",
                     "ignoreFailures": true
                 }
-            ]
+            ],
+            // 预启动任务：在启动调试之前，先执行名为“C/C++: g++.exe 生成活动文件”的构建任务。
+            "preLaunchTask": "C/C++: g++.exe 生成活动文件"
         }
     ]
 }

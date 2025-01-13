@@ -86,7 +86,7 @@
             "name": "Debug HTTP Server",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}\\httplib-server\\main03.exe",
+            "program": "${workspaceFolder}\\httplib-server\\main.exe",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",

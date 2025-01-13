@@ -12,11 +12,11 @@
             "command": "g++",
             // 编译参数包括调试信息（-g）、源文件路径（main.cpp）、输出文件名（main.exe），以及vcpkg库的头文件和库文件路径。
             "args": [
-                "E:\\repository\\_code-source\\_C_C++\\_learn\\httplib-server\\main03.cpp",
+                "E:\\repository\\_code-source\\_C_C++\\_learn\\httplib-server\\main.cpp",
                 "-o",
                 "main.exe",
                 "main",
-                "${workspaceFolder}\\main03.exe",
+                "${workspaceFolder}\\main.exe",
                 "-I", "D:/vcpkg/installed/x64-windows/include",  // 添加 vcpkg 的头文件路径
                 "-lws2_32",
                 "-L", "D:/vcpkg/installed/x64-windows/lib"      // 添加 vcpkg 的库文件路径

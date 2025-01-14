@@ -22,74 +22,24 @@
             "console": "internalConsole"
         },
         {
-            "name": "(gdb) 启动",
-            // 使用GDB进行调试。
+            // 配置名称
+            "name": "Debug httplib-server",
+            // 配置类型，这里用于C++调试
             "type": "cppdbg",
+            // 请求类型，用于启动程序
             "request": "launch",
-            // 需要手动输入要调试的可执行文件路径。
-            "program": "输入程序名称，例如 ${workspaceFolder}/a.exe",
-            "args": [],
-            "stopAtEntry": false,
-            // 设置工作目录为当前文件所在的目录。
-            "cwd": "${fileDirname}",
-            "environment": [],
-            // 不使用外部控制台。
-            "externalConsole": false,
-            // 使用GDB作为调试器。
-            "MIMode": "gdb",
-            // 指定GDB的路径（需要根据实际情况修改）。
-            "miDebuggerPath": "/path/to/gdb",
-            // 调试器设置命令："setupCommands"
-            "setupCommands": [
-                // 启用整齐打印："-enable-pretty-printing"
-                {
-                    "description": "为 gdb 启用整齐打印",
-                    "text": "-enable-pretty-printing",
-                    "ignoreFailures": true
-                },
-                // 设置反汇编风格为Intel："-gdb-set disassembly-flavor intel"
-                {
-                    "description": "将反汇编风格设置为 Intel",
-                    "text": "-gdb-set disassembly-flavor intel",
-                    "ignoreFailures": true
-                }
-            ]
-        },
-        {
-            "name": "C/C++: g++.exe 生成和调试活动文件",
-            "type": "cppdbg",
-            "request": "launch",
-            "program": "${fileDirname}\\${fileBasenameNoExtension}.exe",
-            "args": [],
-            "stopAtEntry": false,
-            "cwd": "${fileDirname}",
-            "environment": [],
-            "externalConsole": false,
-            "MIMode": "gdb",
-            "miDebuggerPath": "D:\\msys64\\ucrt64\\bin\\gdb.exe",
-            "setupCommands": [
-                {
-                    "description": "为 gdb 启用整齐打印",
-                    "text": "-enable-pretty-printing",
-                    "ignoreFailures": true
-                },
-                {
-                    "description": "将反汇编风格设置为 Intel",
-                    "text": "-gdb-set disassembly-flavor intel",
-                    "ignoreFailures": true
-                }
-            ],
-            // 预启动任务：在启动调试之前，先执行名为“C/C++: g++.exe 生成活动文件”的构建任务。
-            "preLaunchTask": "C/C++: g++.exe 生成活动文件"
-        },
-        {
-            "name": "Debug HTTP Server",
-            "type": "cppdbg",
-            "request": "launch",
+            // 要调试的程序路径
             "program": "${workspaceFolder}\\httplib-server\\main.exe",
-            "args": [],
+            // 程序启动时的参数
+            "args": [
+                "--ip", "0.0.0.0",
+                "--port", "8080"
+            ],
+            // 是否在入口点处停止
             "stopAtEntry": false,
+            // 工作目录
             "cwd": "${workspaceFolder}",
+            // 环境变量设置
             "environment": [
                 {
                     "name": "SERVER_IP",
@@ -100,9 +50,13 @@
                     "value": "8080"
                 }
             ],
+            // 是否使用外部控制台
             "externalConsole": false,
+            // 调用调试器的模式
             "MIMode": "gdb",
+            // 调用调试器的路径
             "miDebuggerPath": "D:\\msys64\\ucrt64\\bin\\gdb.exe",
+            // 调试会话开始前的设置命令
             "setupCommands": [
                 {
                     "description": "为 gdb 启用整齐打印",
@@ -115,7 +69,59 @@
                     "ignoreFailures": true
                 }
             ],
-            "preLaunchTask": "Build HTTP Server"
+            // 启动调试会话前执行的任务
+            // "preLaunchTask": "Build HTTP Server"
+        },
+        {
+            // 配置名称
+            "name": "Debug httplib-server mvc",
+            // 配置类型，这里用于C++调试
+            "type": "cppdbg",
+            // 请求类型，用于启动程序
+            "request": "launch",
+            // 要调试的程序路径
+            "program": "${workspaceFolder}\\httplib-server\\mvc\\main.exe",
+            // 程序启动时的参数
+            "args": [
+                "--ip", "0.0.0.0",
+                "--port", "8080"
+            ],
+            // 是否在入口点处停止
+            "stopAtEntry": false,
+            // 工作目录
+            "cwd": "${workspaceFolder}",
+            // 环境变量设置
+            "environment": [
+                {
+                    "name": "SERVER_IP",
+                    "value": "0.0.0.0"
+                },
+                {
+                    "name": "SERVER_PORT",
+                    "value": "8080"
+                }
+            ],
+            // 是否使用外部控制台
+            "externalConsole": false,
+            // 调用调试器的模式
+            "MIMode": "gdb",
+            // 调用调试器的路径
+            "miDebuggerPath": "D:\\msys64\\ucrt64\\bin\\gdb.exe",
+            // 调试会话开始前的设置命令
+            "setupCommands": [
+                {
+                    "description": "为 gdb 启用整齐打印",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                },
+                {
+                    "description": "将反汇编风格设置为 Intel",
+                    "text": "-gdb-set disassembly-flavor intel",
+                    "ignoreFailures": true
+                }
+            ],
+            // 启动调试会话前执行的任务
+            // "preLaunchTask": "Build HTTP Server"
         }
     ]
 }

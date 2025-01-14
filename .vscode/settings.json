@@ -1,4 +1,3 @@
-// 定义了Visual Studio Code中的用户或工作区设置文件settings.json，用于配置编辑器的行为和项目特定的设置。
 {
     // 用于指定某些文件或头文件与特定语言的关联，确保这些文件在打开时使用正确的语言模式进行语法高亮、智能感知等。
     "files.associations": {
@@ -94,7 +93,21 @@
     },
     // 指定CMake项目的源代码目录。
     "cmake.sourceDirectory": "E:/repository/_code-source/_C_C++/_learn",
+    // "cpp": "cd $dir && g++ $fullFileName View.cpp Controller.cpp -o $dir$fileNameWithoutExt -I D:/vcpkg/installed/x64-windows/include -L D:/vcpkg/installed/x64-windows/lib -lws2_32 && $dir$fileNameWithoutExt"
+    //  "cpp": "cd $dir && g++ $fullFileName View.cpp Controller.cpp -o \"$dir$fileNameWithoutExt.exe\" -I $dir D:/vcpkg/installed/x64-windows/include -L D:/vcpkg/installed/x64-windows/lib -lws2_32 -lhttplib && \"$dir$fileNameWithoutExt.exe\""
     "code-runner.executorMap": {
+        // "cpp": "cd $dir && g++ \"$fullFileName\" \"${workspaceFolder}/httplib-server/mvc/View.cpp\" \"${workspaceFolder}/httplib-server/mvc/Controller.cpp\" -o \"$dir$fileNameWithoutExt.exe\" -I \"${workspaceFolder}/httplib-server/mvc\" -I \"D:/vcpkg/installed/x64-windows/include\" -L \"D:/vcpkg/installed/x64-windows/lib\" -lws2_32 -lhttplib && \"$dir$fileNameWithoutExt.exe\""
         "cpp": "cd $dir && g++ \"$fileName\" -o \"$fileNameWithoutExt\" -I \"D:\\vcpkg\\installed\\x64-windows\\include\" -lws2_32 && \"$dir$fileNameWithoutExt\""
+    },
+    // 配置 clang-format
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "xaver.clang-format",
+    "clang-format.executable": "clang-format",
+    "clang-format.style": "Google", // 你可以选择其他风格，如 "LLVM", "Mozilla", "Chromium", "Microsoft", "WebKit" 等
+    "clang-format.fallbackStyle": "Google",
+    "clang-format.language.cpp": {
+        "BasedOnStyle": "Google",
+        "IndentWidth": 4,
+        "ColumnLimit": 80
     }
 }

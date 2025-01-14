@@ -9,7 +9,11 @@
                 "${workspaceFolder}/**",
                 "D:/vcpkg/installed/x64-windows/include",
                 "D:/vcpkg/installed/x64-windows/lib",
-                "E:/repository/_code-source/_C_C++/_learn/websocketpp"
+                "E:/repository/_code-source/_C_C++/_learn/websocketpp",
+                "E:/repository/_code-source/_C_C++/_learn/httplib-server-mvc",
+                "${workspaceFolder}/include/controllers",  // 添加 UserController.h 的路径
+                "${workspaceFolder}/include/models",  // 添加 UserModel.h 的路径
+                "${workspaceFolder}/include/views"  // 添加 JsonView.h 的路径
             ],
             // 宏定义：定义了编译时使用的宏，如_DEBUG、UNICODE等。
             "defines": [

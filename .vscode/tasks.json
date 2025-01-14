@@ -32,5 +32,38 @@
                 "cwd": "${workspaceFolder}"  // 确保工作目录是项目根目录
             }
         },
+        {
+            // 任务的名称，显示在VS Code的任务选择器中。
+            "label": "Build httplib-server mvc",
+            // 指定任务类型为shell命令。
+            "type": "shell",
+            // 使用g++编译器进行编译。
+            "command": "g++",
+            // 编译参数包括调试信息（-g）、源文件路径（main.cpp）、输出文件名（main.exe），以及vcpkg库的头文件和库文件路径。
+            "args": [
+                "\"${workspaceFolder}\\httplib-server\\mvc\\main.cpp\"",
+                "\"${workspaceFolder}\\httplib-server\\mvc\\View.cpp\"",
+                "\"${workspaceFolder}\\httplib-server\\mvc\\Controller.cpp\"",
+                "\"${workspaceFolder}\\httplib-server\\mvc\\Model.cpp\"",
+                "-o",
+                "\"${workspaceFolder}\\httplib-server\\mvc\\main.exe\"",
+                "-I", "D:/vcpkg/installed/x64-windows/include",  // 添加 vcpkg 的头文件路径
+                "-L", "D:/vcpkg/installed/x64-windows/lib",     // 添加 vcpkg 的库文件路径
+                "-lws2_32",
+                // "-lhttplib"
+                "-g"  // 启用调试信息
+            ],
+            // 将此任务归类为构建任务。
+            "group": "build",
+            // 问题匹配器：使用GCC编译器的问题匹配器来捕获编译错误和警告。
+            "problemMatcher": [
+                "$gcc"
+            ],
+            // 详细信息：描述任务的来源。
+            "detail": "Generated task by VS Code",
+            "options": {
+                "cwd": "${workspaceFolder}"  // 确保工作目录是项目根目录
+            }
+        },
     ]
 }

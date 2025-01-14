@@ -121,7 +121,12 @@
                 }
             ],
             // 启动调试会话前执行的任务
-            // "preLaunchTask": "Build HTTP Server"
+            "preLaunchTask": "Build httplib-server mvc",
+            // "miDebuggerPath": "C:\\path\\to\\gdb.exe",  // 根据需要调整GDB路径
+            "logging": {
+                "trace": true,
+                "traceResponse": true
+            }
         }
     ]
 }

@@ -89,7 +89,9 @@
         "xstring": "cpp",
         "xtr1common": "cpp",
         "xtree": "cpp",
-        "xutility": "cpp"
+        "xutility": "cpp",
+        "filesystem": "cpp",
+        "resumable": "cpp"
     },
     // 指定CMake项目的源代码目录。
     "cmake.sourceDirectory": "E:/repository/_code-source/_C_C++/_learn",

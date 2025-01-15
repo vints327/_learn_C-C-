@@ -78,13 +78,14 @@
                 "\"${workspaceFolder}\\httplib-server-mvc\\src\\views\\JsonView.cpp\"",
                 "\"${workspaceFolder}\\httplib-server-mvc\\src\\controllers\\UserController.cpp\"",
                 "\"${workspaceFolder}\\httplib-server-mvc\\src\\models\\UserModel.cpp\"",
+                "\"${workspaceFolder}\\httplib-server-mvc\\resource.o\"",
                 "-o",
                 "\"${workspaceFolder}\\httplib-server-mvc\\main.exe\"",
                 "-I", "D:/vcpkg/installed/x64-windows/include",  // 添加 vcpkg 的头文件路径
                 "-L", "D:/vcpkg/installed/x64-windows/lib",     // 添加 vcpkg 的库文件路径
                 "-lws2_32",
                 // "-lhttplib"
-                "-g"  // 启用调试信息
+                // "-g"  // 启用调试信息
             ],
             // 将此任务归类为构建任务。
             "group": "build",
@@ -96,6 +97,30 @@
             "detail": "Generated task by VS Code",
             "options": {
                 "cwd": "${workspaceFolder}"  // 确保工作目录是项目根目录
+            },
+            "dependsOn": [
+                "Compile Resource"
+            ]
+        },
+        {
+            "label": "Compile Resource",
+            "type": "shell",
+            "command": "windres",
+            "args": [
+                "\"${workspaceFolder}\\httplib-server-mvc\\resource.rc\"",
+                "-O",
+                "coff",
+                "-o",
+                "\"${workspaceFolder}\\httplib-server-mvc\\resource.o\""
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            },
+            "problemMatcher": [],
+            "detail": "Compile resource file",
+            "options": {
+                "cwd": "${workspaceFolder}"
             }
         },
     ]

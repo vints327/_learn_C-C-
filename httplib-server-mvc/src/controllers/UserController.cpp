@@ -12,7 +12,7 @@ void UserController::getUser(const httplib::Request &req, httplib::Response &res
     UserModel userModel;
     
     try {
-        int id = std::stoi(req.get_param_value("id"));
+        int id = std::stoi(req.get_param_value("id"));//获取参数，字符串转数字
         User user = userModel.getUserById(id);
 
         if (user.id == -1) {

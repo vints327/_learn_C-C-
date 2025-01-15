@@ -1,44 +1,62 @@
 #include "UserController.h"
-#include <httplib.h>
-#include <vector>
-#include <iostream>
+#include <nlohmann/json.hpp>  // 使用 nlohmann/json 库来处理 JSON
 
-UserController::UserController() {}
+using json = nlohmann::json;
+
+UserController::UserController() {
+    // 初始化用户模型或其他资源
+}
 
 void UserController::getUser(const httplib::Request &req, httplib::Response &res) {
-    int userId = std::stoi(req.get_param_value("id"));
-    UserModel user = UserModel::getUserById(userId);
-    std::string jsonResponse = JsonView::renderUser(user.getName());
-    res.set_content(jsonResponse, "application/json");
+    // 假设我们有一个方法从 UserModel 获取用户信息
+    UserModel userModel;
+    
+    try {
+        int id = std::stoi(req.get_param_value("id"));
+        User user = userModel.getUserById(id);
+
+        if (user.id == -1) {
+            res.status = 404;
+            res.set_content(JsonView::error("User not found"), "application/json");
+        } else {
+            res.set_content(JsonView::user(user), "application/json");
+        }
+    } catch (const std::invalid_argument& e) {
+        res.status = 400;
+        res.set_content(JsonView::error("Invalid ID format"), "application/json");
+    } catch (const std::out_of_range& e) {
+        res.status = 400;
+        res.set_content(JsonView::error("ID out of range"), "application/json");
+    }
 }
 
 void UserController::createUser(const httplib::Request &req, httplib::Response &res) {
-    std::string name = req.get_param_value("name");
-    UserModel user;
-    user.setName(name);
-    user.saveToDatabase();
-    res.set_content("User created successfully", "text/plain");
+    // 假设我们从请求体中解析用户信息
+    json userJson = json::parse(req.body);
+    User user;
+    user.name = userJson["name"];
+    user.email = userJson["email"];
+
+    UserModel userModel;
+    bool success = userModel.createUser(user);
+
+    if (success) {
+        res.status = 201;
+        res.set_content(JsonView::user(user), "application/json");
+    } else {
+        res.status = 500;
+        res.set_content(JsonView::error("Failed to create user"), "application/json");
+    }
 }
 
 void UserController::listUsers(const httplib::Request &req, httplib::Response &res) {
-    // 模拟用户数据列表
-    std::vector<UserModel> users;
-    users.push_back(UserModel::getUserById(1)); // 模拟用户数据
-    users.push_back(UserModel::getUserById(2));
+    UserModel userModel;
+    std::vector<User> users = userModel.getAllUsers();
 
-    // 渲染为 JSON 格式
-    nlohmann::json jsonResponse;
-    for (const auto& user : users) {
-        jsonResponse.push_back({{"id", user.getName()}});
-    }
-
-    res.set_content(jsonResponse.dump(), "application/json");
+    res.set_content(JsonView::users(users), "application/json");
 }
 
 void UserController::addUser(const httplib::Request &req, httplib::Response &res) {
-    std::string name = req.get_param_value("name");
-    UserModel user;
-    user.setName(name);
-    user.saveToDatabase();
-    res.set_content("User added successfully", "text/plain");
+    // 这个方法可以与 createUser 方法合并，或者根据具体需求实现不同的逻辑
+    createUser(req, res);
 }

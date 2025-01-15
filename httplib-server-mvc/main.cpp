@@ -1,7 +1,5 @@
-// 
 #include "./src/controllers/UserController.h"
 #include <iostream>
-// #include "include/controllers/UserController.h"
 #include "httplib.h"  // 使用 cpp-httplib 库
 
 int main() {
@@ -10,8 +8,8 @@ int main() {
     UserController userController;
 
     // 配置二级路由
-    svr.Get("/user", [&](const httplib::Request &req, httplib::Response &res) {
-        userController.getUser(req, res);
+    svr.Get("/user/:id", [&](const httplib::Request &req, httplib::Response &res) {
+        userController.getUser(req, res);  // 传递 req 和 res 参数
     });
 
     svr.Post("/user", [&](const httplib::Request &req, httplib::Response &res) {

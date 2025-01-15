@@ -1,28 +1,23 @@
 #include "UserModel.h"
-#include <iostream> // 模拟输出日志
 
-UserModel::UserModel() : id(0), name("") {}
-
-UserModel::~UserModel() {}
-
-void UserModel::setName(const std::string& name) {
-    this->name = name;
+User UserModel::getUserById(int id) {
+    // 模拟从数据库获取用户信息
+    if (id == 1) {
+        return {1, "John Doe", "john.doe@example.com"};
+    } else {
+        return {-1, "", ""};  // 用户不存在
+    }
 }
 
-std::string UserModel::getName() const {
-    return this->name;
+bool UserModel::createUser(const User &user) {
+    // 模拟创建用户
+    return true;  // 假设创建成功
 }
 
-// 模拟数据库操作
-bool UserModel::saveToDatabase() const {
-    std::cout << "Saving user: " << name << " to database..." << std::endl;
-    return true; // 模拟保存成功
-}
-
-UserModel UserModel::getUserById(int userId) {
-    // 模拟从数据库中获取用户数据
-    UserModel user;
-    user.id = userId;
-    user.name = "John Doe";  // 示例数据
-    return user;
+std::vector<User> UserModel::getAllUsers() {
+    // 模拟获取所有用户
+    return {
+        {1, "John Doe", "john.doe@example.com"},
+        {2, "Jane Smith", "jane.smith@example.com"}
+    };
 }

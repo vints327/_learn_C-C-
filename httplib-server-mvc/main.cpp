@@ -14,6 +14,7 @@ int main() {
     UserController userController;
 
     // 配置二级路由
+    //  [&] 是Lambda 表达式的捕获列表
     svr.Get("/user/:id", [&](const httplib::Request &req, httplib::Response &res) {
         userController.getUser(req, res);  // 传递 req 和 res 参数
     });

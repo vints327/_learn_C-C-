@@ -91,7 +91,12 @@
         "xtree": "cpp",
         "xutility": "cpp",
         "filesystem": "cpp",
-        "resumable": "cpp"
+        "resumable": "cpp",
+        "bitset": "cpp",
+        "numeric": "cpp",
+        "ranges": "cpp",
+        "span": "cpp",
+        "valarray": "cpp"
     },
     // 指定CMake项目的源代码目录。
     "cmake.sourceDirectory": "E:/repository/_code-source/_C_C++/_learn",

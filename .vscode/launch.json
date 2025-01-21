@@ -4,13 +4,13 @@
     // 包含三个调试配置，分别是“Debug main.cpp”、“(gdb) 启动”和“C/C++: g++.exe 生成和调试活动文件”。
     "configurations": [
         {
-            "name": "Debug main.cpp",
+            "name": "Debug net",
             // 类型：使用Windows Visual Studio Debugger进行调试。
             "type": "cppvsdbg",
             // 请求类型：指定为启动请求。
             "request": "launch",
             // 程序路径：指定要调试的可执行文件路径。
-            "program": "${workspaceFolder}/main.exe",
+            "program": "${workspaceFolder}\\net\\icmp-test.exe",
             "args": [],
             // 是否在程序入口点暂停（不暂停）。
             "stopAtEntry": false,
@@ -19,7 +19,9 @@
             // 当前没有额外的环境变量设置。
             "environment": [],
             // 使用VS Code内部控制台。
-            "console": "internalConsole"
+            "console": "internalConsole",
+            // 启动调试会话前执行的任务
+            "preLaunchTask": "Build ping with MSVC",
         },
         {
             // 配置名称

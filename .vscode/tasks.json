@@ -4,6 +4,42 @@
     "tasks": [
         // 任务1: Build C++
         {
+            "label": "Build ping with MSVC",
+            "type": "shell",
+            "command": "g++",
+            /* "args": [
+                "/EHsc",  // 启用 C++ 异常处理
+                "/Fe:ping.exe",  // 输出文件名
+                "${workspaceFolder}/net/ping.cpp",  // 指定源文件路径
+                "/I", "D:/vcpkg/installed/x64-windows/include",  // 添加 vcpkg 的头文件路径
+                "/link",  // 开始链接选项
+                "/LIBPATH:D:/vcpkg/installed/x64-windows/lib",  // 添加 vcpkg 的库文件路径
+                "ws2_32.lib",  // 链接 ws2_32 库
+                "icmp.lib"  // 链接 icmp 库
+            ], */
+            "args": [
+                "\"${workspaceFolder}\\net\\icmp-test.cpp\"",
+                "-o",
+                "\"${workspaceFolder}\\net\\icmp-test.exe\"",
+                "-I", "D:/vcpkg/installed/x64-windows/include",  // 添加 vcpkg 的头文件路径
+                "-L", "D:/vcpkg/installed/x64-windows/lib",     // 添加 vcpkg 的库文件路径
+                "-I", "${workspaceFolder}\\npcap-sdk-1.13\\Include",  // 添加 vcpkg 的头文件路径
+                "-L", "${workspaceFolder}\\npcap-sdk-1.13\\Lib\\x64",     // 添加 vcpkg 的库文件路径
+                "-lws2_32",
+                "-lwpcap",
+                "-lPacket"
+                // "-lnpcap"  // 链接 npcap 库
+            ],
+            "group": "build",
+            "problemMatcher": [
+                "$msCompile"
+            ],
+            "detail": "Generated task by VS Code",
+            "options": {
+                "cwd": "${workspaceFolder}"  // 确保工作目录是项目根目录
+            }
+        },
+        {
             // 任务的名称，显示在VS Code的任务选择器中。
             "label": "Build C++",
             // 指定任务类型为shell命令。

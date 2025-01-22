@@ -107,3 +107,4 @@ websocketpp
 *.dll
 *.so
 *.dylib
+*.txt

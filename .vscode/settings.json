@@ -104,7 +104,7 @@
     //  "cpp": "cd $dir && g++ $fullFileName View.cpp Controller.cpp -o \"$dir$fileNameWithoutExt.exe\" -I $dir D:/vcpkg/installed/x64-windows/include -L D:/vcpkg/installed/x64-windows/lib -lws2_32 -lhttplib && \"$dir$fileNameWithoutExt.exe\""
     "code-runner.executorMap": {
         // "cpp": "cd $dir && g++ \"$fullFileName\" \"${workspaceFolder}/httplib-server/mvc/View.cpp\" \"${workspaceFolder}/httplib-server/mvc/Controller.cpp\" -o \"$dir$fileNameWithoutExt.exe\" -I \"${workspaceFolder}/httplib-server/mvc\" -I \"D:/vcpkg/installed/x64-windows/include\" -L \"D:/vcpkg/installed/x64-windows/lib\" -lws2_32 -lhttplib && \"$dir$fileNameWithoutExt.exe\""
-        "cpp": "cd $dir && g++ \"$fileName\" -o \"$fileNameWithoutExt\" -I \"D:\\vcpkg\\installed\\x64-windows\\include\" -lws2_32 && \"$dir$fileNameWithoutExt\""
+        "cpp": "cd $dir && g++ \"$fileName\" -o \"$fileNameWithoutExt\" -I \"D:\\vcpkg\\installed\\x64-windows\\include\" -L \"D:/vcpkg/installed/x64-windows/lib\" -lws2_32 && \"$dir$fileNameWithoutExt\""
     },
     // 配置 clang-format
     "editor.formatOnSave": true,

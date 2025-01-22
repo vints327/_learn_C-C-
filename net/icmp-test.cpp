@@ -10,6 +10,7 @@
 #include <iphlpapi.h>
 #include <pcap.h>
 #include <conio.h>  // 用于 _getch()
+#include <fstream>   // 用于文件操作
 
 // 链接必要的库
 #pragma comment(lib, "ws2_32.lib")
@@ -71,19 +72,68 @@ struct IPHeader {
 };
 #pragma pack(pop)
 
+// TCP 和 UDP 头结构体
+#pragma pack(push, 1) // 确保结构体按字节对齐
+struct tcphdr {
+    USHORT source;
+    USHORT dest;
+    ULONG seq;
+    ULONG ack_seq;
+    BYTE reserved1 : 4;
+    BYTE th_off : 4;
+    BYTE flags;
+    BYTE window;
+    USHORT check;
+    USHORT urg_ptr;
+};
+
+struct udphdr {
+    USHORT uh_sport;
+    USHORT uh_dport;
+    USHORT uh_ulen;
+    USHORT uh_sum;
+};
+#pragma pack(pop)
+
 // 处理接收到的数据包
+std::ofstream logFile;
+
 void packet_handler(u_char* param, const struct pcap_pkthdr* header, const u_char* pkt_data) {
     struct IPHeader* ip_header = (struct IPHeader*)(pkt_data + 14); // 跳过以太网帧头
     int ip_header_length = (ip_header->ihl & 0x0F) * 4;
 
-    struct ICMPHeader* icmp_header = (struct ICMPHeader*)((u_char*)ip_header + ip_header_length);
+    if (ip_header_length < 20) {
+        std::cerr << "Invalid IP header length" << std::endl;
+        return;
+    }
 
-    if (icmp_header->Type == ICMP_ECHOREPLY) {
-        mtx.lock();
-        char ip_str[INET_ADDRSTRLEN];
-        inet_ntop(AF_INET, &(ip_header->src_ip), ip_str, INET_ADDRSTRLEN);
-        results.push_back({ip_str, true});
-        mtx.unlock();
+    BYTE protocol = ip_header->protocol;
+
+    if (protocol == IPPROTO_TCP || protocol == IPPROTO_UDP) {
+        char src_ip_str[INET_ADDRSTRLEN];
+        char dst_ip_str[INET_ADDRSTRLEN];
+        inet_ntop(AF_INET, &(ip_header->src_ip), src_ip_str, INET_ADDRSTRLEN);
+        inet_ntop(AF_INET, &(ip_header->dest_ip), dst_ip_str, INET_ADDRSTRLEN);
+
+        std::string protocol_name = (protocol == IPPROTO_TCP) ? "TCP" : "UDP";
+        std::string src_port_str, dst_port_str;
+
+        if (protocol == IPPROTO_TCP) {
+            struct tcphdr* tcp_header = (struct tcphdr*)((u_char*)ip_header + ip_header_length);
+            src_port_str = std::to_string(ntohs(tcp_header->source));
+            dst_port_str = std::to_string(ntohs(tcp_header->dest));
+        } else if (protocol == IPPROTO_UDP) {
+            struct udphdr* udp_header = (struct udphdr*)((u_char*)ip_header + ip_header_length);
+            src_port_str = std::to_string(ntohs(udp_header->uh_sport));
+            dst_port_str = std::to_string(ntohs(udp_header->uh_dport));
+        }
+
+        std::string packet_info = "Protocol: " + protocol_name + ", Src IP: " + src_ip_str + ", Src Port: " + src_port_str + ", Dst IP: " + dst_ip_str + ", Dst Port: " + dst_port_str;
+
+        std::cout << packet_info << std::endl;
+        if (logFile.is_open()) {
+            logFile << packet_info << std::endl;
+        }
     }
 }
 
@@ -122,13 +172,18 @@ int main() {
     SetConsoleOutputCP(CP_UTF8);
 
     try {
-        /* 这段代码的功能是初始化Windows套接字库（Winsock）。具体步骤如下：
-
-        初始化WSADATA结构体：用于存储Winsock库的详细信息。
-        调用WSAStartup函数：启动Winsock库，参数为版本号2.2。如果启动失败，则输出错误信息并返回1。 */
+        // 初始化Winsock库
         WSADATA wsaData;
         if (WSAStartup(MAKEWORD(2, 2), &wsaData) != 0) {
             std::cerr << "WSAStartup 失败: " << WSAGetLastError() << std::endl;
+            return 1;
+        }
+
+        // 打开日志文件
+        logFile.open("packet.log.txt", std::ios::out);
+        if (!logFile.is_open()) {
+            std::cerr << "无法打开 packet.log.txt 文件" << std::endl;
+            WSACleanup();
             return 1;
         }
 
@@ -141,6 +196,7 @@ int main() {
         if (pcap_findalldevs(&alldevs, errbuf) == -1) {
             std::cerr << "查找设备失败: " << errbuf << std::endl;
             WSACleanup();
+            logFile.close();
             return 1;
         }
 
@@ -169,6 +225,7 @@ int main() {
             std::cerr << "无效的适配器编号" << std::endl;
             pcap_freealldevs(alldevs);
             WSACleanup();
+            logFile.close();
             return 1;
         }
 
@@ -177,17 +234,20 @@ int main() {
             std::cerr << "打开适配器失败: " << errbuf << std::endl;
             pcap_freealldevs(alldevs);
             WSACleanup();
+            logFile.close();
             return 1;
         }
 
         // 设置过滤器
         struct bpf_program fp;
-        char filter_exp[] = "icmp";
+        char filter_exp[] = "ip"; // 捕获所有IP数据包
+        std::cout << "正在编译过滤器: " << filter_exp << std::endl;
         if (pcap_compile(adhandle, &fp, filter_exp, 0, 0) == -1) {
             std::cerr << "编译过滤器失败: " << pcap_geterr(adhandle) << std::endl;
             pcap_close(adhandle);
             pcap_freealldevs(alldevs);
             WSACleanup();
+            logFile.close();
             return 1;
         }
 
@@ -197,6 +257,7 @@ int main() {
             pcap_close(adhandle);
             pcap_freealldevs(alldevs);
             WSACleanup();
+            logFile.close();
             return 1;
         }
 
@@ -240,11 +301,14 @@ int main() {
         std::cerr << "捕获到未知异常" << std::endl;
     }
 
+    // 关闭日志文件
+    if (logFile.is_open()) {
+        logFile.close();
+    }
+
     // 等待用户输入，以便查看输出结果
     std::cout << "按任意键继续..." << std::endl;
     _getch();
-    //_getch() 是一个在 Windows 平台下常用的控制台输入函数，定义在 <conio.h> 头文件中。
-    // 它的主要功能是从键盘读取一个字符，但不会回显到屏幕上（即不会显示在控制台上），并且不需要用户按下回车键确认。
 
     return 0;
 }
